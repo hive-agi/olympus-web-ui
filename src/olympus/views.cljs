@@ -2,7 +2,10 @@
   "UI components."
   (:require [re-frame.core :as rf]
             [olympus.subs :as subs]
-            [olympus.events :as events]))
+            [olympus.events :as events]
+            [olympus.graphs.agent :as agent-graph]
+            [olympus.graphs.wave :as wave-graph]
+            [olympus.graphs.kg :as kg-graph]))
 
 ;; -- Helpers --
 
@@ -47,44 +50,20 @@
      [:div {:class "agent-task"} (:task agent)])])
 
 (defn agents-panel []
-  (let [agents @(rf/subscribe [::subs/agents])]
-    [:div {:class "panel agents-panel"}
-     [:h2 "Agents"]
-     (if (empty? agents)
-       [:div {:class "empty-state"} "No agents active"]
-       [:div {:class "agents-grid"}
-        (for [agent agents]
-          ^{:key (first agent)}
-          [agent-card agent])])]))
+  ;; Use the graph-based agent topology view
+  [agent-graph/agents-panel])
 
 ;; -- Waves Panel --
 
 (defn waves-panel []
-  (let [waves @(rf/subscribe [::subs/waves])]
-    [:div {:class "panel waves-panel"}
-     [:h2 "Waves"]
-     (if (empty? waves)
-       [:div {:class "empty-state"} "No active waves"]
-       [:div {:class "waves-list"}
-        (for [[wave-id wave] waves]
-          ^{:key wave-id}
-          [:div {:class "wave-card"}
-           [:div {:class "wave-header"} wave-id]
-           [:div {:class "wave-tasks"}
-            (str (count (:tasks wave)) " tasks")]])])]))
+  ;; Use the graph-based wave visualization
+  [wave-graph/waves-panel])
 
 ;; -- Knowledge Graph Panel --
 
 (defn kg-panel []
-  (let [entries @(rf/subscribe [::subs/kg-entries])
-        edges @(rf/subscribe [::subs/kg-edges])]
-    [:div {:class "panel kg-panel"}
-     [:h2 "Knowledge Graph"]
-     [:div {:class "kg-stats"}
-      [:span (str (count entries) " entries")]
-      [:span (str (count edges) " edges")]]
-     [:div {:class "kg-placeholder"}
-      "Graph visualization coming soon..."]]))
+  ;; Use the graph-based KG visualization
+  [kg-graph/kg-panel])
 
 ;; -- Events Panel --
 
