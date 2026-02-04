@@ -1,0 +1,30 @@
+;; shadow-cljs configuration
+;; https://shadow-cljs.github.io/docs/UsersGuide.html
+
+{:source-paths ["src"]
+
+ :dependencies [[re-frame "1.4.3"]
+                [reagent "1.2.0"]
+                [day8.re-frame/http-fx "0.2.4"]
+                [haslett "0.1.6"]  ; WebSocket client
+                [metosin/reitit "0.7.0-alpha7"]]
+
+ :dev-http {8080 "public"}
+
+ :builds
+ {:app
+  {:target :browser
+   :output-dir "public/js"
+   :asset-path "/js"
+
+   :modules
+   {:main {:init-fn olympus.core/init}}
+
+   :devtools
+   {:after-load olympus.core/reload
+    :preloads [devtools.preload]}}
+
+  :test
+  {:target :node-test
+   :output-to "out/test.js"
+   :ns-regexp "-test$"}}}

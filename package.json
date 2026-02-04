@@ -1,0 +1,24 @@
+{
+  "name": "olympus-web-ui",
+  "version": "0.1.0",
+  "description": "Graph-based web UI for hive-mcp swarm visualization",
+  "scripts": {
+    "dev": "shadow-cljs watch app",
+    "build": "shadow-cljs release app",
+    "test": "shadow-cljs compile test && node out/test.js",
+    "clean": "rm -rf public/js out .shadow-cljs"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.27.1"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hive-agi/olympus-web-ui.git"
+  },
+  "author": "Pedro Gomes Branquinho (BuddhiLW)",
+  "license": "AGPL-3.0-or-later"
+}

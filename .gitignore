@@ -1,0 +1,22 @@
+# Shadow-cljs
+.shadow-cljs/
+node_modules/
+out/
+public/js/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.calva/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# REPL
+.nrepl-port
+.cpcache/
+
+# Dependencies
+.clj-kondo/
