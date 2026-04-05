@@ -3,11 +3,11 @@
 
 {:source-paths ["src"]
 
- :dependencies [[re-frame "1.4.3"]
+ :dependencies [[re-frame "1.4.4"]
                 [reagent "2.0.1"]
                 [day8.re-frame/http-fx "0.2.4"]
-                [haslett "0.1.6"]  ; WebSocket client
-                [metosin/reitit "0.7.0-alpha7"]
+                [haslett "0.2.0"]  ; WebSocket client
+                [metosin/reitit "0.10.1"]
                 [binaryage/devtools "1.0.7"]]
 
  :dev-http {8080 "public"}
