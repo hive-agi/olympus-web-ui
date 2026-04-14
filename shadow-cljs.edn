@@ -3,7 +3,7 @@
 
 {:source-paths ["src"]
 
- :dependencies [[re-frame "1.4.4"]
+ :dependencies [[re-frame "1.4.5"]
                 [reagent "2.0.1"]
                 [day8.re-frame/http-fx "0.2.4"]
                 [haslett "0.2.0"]  ; WebSocket client
