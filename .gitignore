@@ -20,3 +20,6 @@ Thumbs.db
 
 # Dependencies
 .clj-kondo/
+.clj-kondo/.cache/
+.clj-kondo/imports/
+.lsp/.cache/
