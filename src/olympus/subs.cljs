@@ -27,18 +27,6 @@
  (fn [db _]
    (get-in db [:ui :selected-agent])))
 
-;; -- Waves --
-
-(rf/reg-sub
- ::waves
- (fn [db _]
-   (:waves db)))
-
-(rf/reg-sub
- ::selected-wave
- (fn [db _]
-   (get-in db [:ui :selected-wave])))
-
 ;; -- Events --
 
 (rf/reg-sub
