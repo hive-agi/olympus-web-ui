@@ -8,7 +8,7 @@ Built with ClojureScript, re-frame, and inspired by [re-frame-flow](https://gith
 
 Olympus Web UI provides real-time visualization of:
 
-- **Agent Topology** - Ling/drone hierarchy and coordination
+- **Agent Topology** - Ling hierarchy and coordination
 - **Knowledge Graph** - Memory entries, edges, and staleness
 - **Hivemind Events** - Real-time event stream visualization
 
@@ -19,7 +19,7 @@ Olympus Web UI provides real-time visualization of:
 │     Olympus Web UI (this repo)          │
 │  ┌─────────────────────────────────┐    │
 │  │  re-frame-flow graph renderer   │    │
-│  │  - Agent graph (lings/drones)   │    │
+│  │  - Agent graph (lings)          │    │
 │  │  - KG visualization             │    │
 │  └─────────────────────────────────┘    │
 │              ↕ WebSocket                │

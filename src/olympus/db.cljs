@@ -6,7 +6,7 @@
                 :url "ws://localhost:7911/ws"}
 
    ;; Agents registry
-   :agents {}  ; agent-id -> {:status :idle/:working/:error, :type :ling/:drone, ...}
+   :agents {}  ; agent-id -> {:status :idle/:working/:error, :type :ling/:coordinator, ...}
 
    ;; Hivemind event stream
    :events []  ; [{:agent-id :event-type :message :timestamp}, ...]

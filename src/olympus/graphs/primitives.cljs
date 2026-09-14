@@ -30,7 +30,6 @@
   [type]
   (case type
     :ling "#8b5cf6"      ; purple for lings
-    :drone "#f97316"     ; orange for drones
     :entry "#3b82f6"     ; blue for KG entries
     :decision "#22c55e"  ; green for decisions
     :convention "#eab308" ; yellow for conventions
