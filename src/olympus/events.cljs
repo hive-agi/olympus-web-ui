@@ -39,17 +39,10 @@
                                        :parent-id (:parent-id a)
                                        :project-id (:project-id a)
                                        :last-message (:message a)}])
-                                   (:agents data)))
-             ;; Waves come as {wave-id -> wave-data} map
-             waves-map (into {}
-                             (map (fn [[k v]]
-                                    [(name k) (assoc v :id (name k)
-                                                     :status (keyword (or (:status v) :unknown)))])
-                                  (:waves data)))]
-         (js/console.log "Loaded snapshot:" (count agents-map) "agents," (count waves-map) "waves")
+                                   (:agents data)))]
+         (js/console.log "Loaded snapshot:" (count agents-map) "agents")
          (-> db
              (assoc :agents agents-map)
-             (assoc :waves waves-map)
              (assoc :kg (or (:kg data) (:kg db)))
              (assoc-in [:connection :last-snapshot] (:timestamp message))))
 
@@ -68,13 +61,7 @@
                                          :parent-id (:parent-id a)
                                          :project-id (:project-id a)
                                          :last-message (:message a)}])
-                                     (:agents data))))
-           (:waves data)
-           (assoc :waves (into {}
-                               (map (fn [[k v]]
-                                      [(name k) (assoc v :id (name k)
-                                                       :status (keyword (or (:status v) :unknown)))])
-                                    (:waves data))))))
+                                     (:agents data))))))
 
        ;; === Hivemind shout event (from olympus broadcast) ===
        :hivemind-shout
@@ -133,16 +120,8 @@
                                  :project-id (:project-id message)})
        :agent-killed (update db :agents dissoc (:agent-id message))
 
-       ;; Wave events
-       :wave-started (assoc-in db [:waves (:wave-id message)]
-                               {:id (:wave-id message)
-                                :status :running
-                                :tasks (:tasks message)})
-       :wave-completed (assoc-in db [:waves (:wave-id message) :status] :completed)
-
        ;; Legacy format
        :agents (assoc db :agents (:data message))
-       :wave-update (assoc-in db [:waves (:wave-id message)] (:data message))
        :hivemind-event (update db :events conj (:data message))
        :kg-snapshot (assoc db :kg (:data message))
 
@@ -165,8 +144,3 @@
  ::select-agent
  (fn [db [_ agent-id]]
    (assoc-in db [:ui :selected-agent] agent-id)))
-
-(rf/reg-event-db
- ::select-wave
- (fn [db [_ wave-id]]
-   (assoc-in db [:ui :selected-wave] wave-id)))

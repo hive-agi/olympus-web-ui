@@ -8,9 +8,6 @@
    ;; Agents registry
    :agents {}  ; agent-id -> {:status :idle/:working/:error, :type :ling/:drone, ...}
 
-   ;; Active waves
-   :waves {}   ; wave-id -> {:tasks [...], :status :pending/:running/:completed}
-
    ;; Hivemind event stream
    :events []  ; [{:agent-id :event-type :message :timestamp}, ...]
 
@@ -19,6 +16,5 @@
         :edges []}    ; [{:from :to :relation :confidence}, ...]
 
    ;; UI state
-   :ui {:active-panel :agents  ; :agents | :waves | :kg | :events
-        :selected-agent nil
-        :selected-wave nil}})
+   :ui {:active-panel :agents  ; :agents | :kg | :events
+        :selected-agent nil}})

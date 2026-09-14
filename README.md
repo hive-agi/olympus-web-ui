@@ -8,7 +8,6 @@ Built with ClojureScript, re-frame, and inspired by [re-frame-flow](https://gith
 
 Olympus Web UI provides real-time visualization of:
 
-- **Wave Dispatches** - Parallel drone task execution graphs
 - **Agent Topology** - Ling/drone hierarchy and coordination
 - **Knowledge Graph** - Memory entries, edges, and staleness
 - **Hivemind Events** - Real-time event stream visualization
@@ -20,7 +19,6 @@ Olympus Web UI provides real-time visualization of:
 │     Olympus Web UI (this repo)          │
 │  ┌─────────────────────────────────┐    │
 │  │  re-frame-flow graph renderer   │    │
-│  │  - Wave nodes (drone tasks)     │    │
 │  │  - Agent graph (lings/drones)   │    │
 │  │  - KG visualization             │    │
 │  └─────────────────────────────────┘    │
@@ -28,7 +26,6 @@ Olympus Web UI provides real-time visualization of:
 ├─────────────────────────────────────────┤
 │  hive-mcp (Clojure backend)             │
 │  - Hivemind events                      │
-│  - Wave status                          │
 │  - Agent registry                       │
 └─────────────────────────────────────────┘
 ```
@@ -65,7 +62,6 @@ src/
 │   ├── views.cljs       # UI components
 │   ├── websocket.cljs   # hive-mcp connection
 │   └── graphs/
-│       ├── wave.cljs    # Wave visualization
 │       ├── agent.cljs   # Agent topology
 │       └── kg.cljs      # Knowledge graph
 ```
@@ -74,7 +70,6 @@ src/
 
 - [ ] Basic re-frame scaffold
 - [ ] WebSocket connection to hive-mcp
-- [ ] Wave dispatch visualization
 - [ ] Agent status dashboard
 - [ ] KG explorer
 - [ ] Hivemind event stream
