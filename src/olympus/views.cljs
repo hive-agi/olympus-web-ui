@@ -4,7 +4,6 @@
             [olympus.subs :as subs]
             [olympus.events :as events]
             [olympus.graphs.agent :as agent-graph]
-            [olympus.graphs.wave :as wave-graph]
             [olympus.graphs.kg :as kg-graph]))
 
 ;; -- Helpers --
@@ -27,7 +26,7 @@
       [:span {:class "brand-icon"} "🐝"]
       [:span {:class "brand-text"} "Olympus"]]
      [:div {:class "nav-tabs"}
-      (for [panel [:agents :waves :kg :events]]
+      (for [panel [:agents :kg :events]]
         ^{:key panel}
         [:button {:class (str "nav-tab" (when (= panel active-panel) " active"))
                   :on-click #(rf/dispatch [::events/set-panel panel])}
@@ -52,12 +51,6 @@
 (defn agents-panel []
   ;; Use the graph-based agent topology view
   [agent-graph/agents-panel])
-
-;; -- Waves Panel --
-
-(defn waves-panel []
-  ;; Use the graph-based wave visualization
-  [wave-graph/waves-panel])
 
 ;; -- Knowledge Graph Panel --
 
@@ -93,7 +86,6 @@
      [:main {:class "main-content"}
       (case active-panel
         :agents [agents-panel]
-        :waves [waves-panel]
         :kg [kg-panel]
         :events [events-panel]
         [agents-panel])]]))

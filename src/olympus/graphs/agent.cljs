@@ -1,6 +1,6 @@
 (ns olympus.graphs.agent
   "Agent topology visualization.
-   Shows ling/drone hierarchy with status and coordination edges."
+   Shows the coordinator and ling hierarchy with status and coordination edges."
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
             [olympus.graphs.primitives :as p]
@@ -12,8 +12,7 @@
   "Icon/emoji for agent type."
   [type]
   (case type
-    :ling "L"      ; Ling (coordinator)
-    :drone "D"     ; Drone (worker)
+    :ling "L"      ; Ling (agentic worker)
     :coordinator "C"  ; Hivemind coordinator
     "?"))
 
@@ -22,7 +21,6 @@
   [type]
   (case type
     :ling "#8b5cf6"       ; purple
-    :drone "#f97316"      ; orange
     :coordinator "#ec4899" ; pink
     "#6b7280"))
 
@@ -80,11 +78,12 @@
   [agents center-x center-y]
   (let [;; Separate by type
         coordinator (first (filter #(= :coordinator (:type %)) agents))
-        lings (filter #(= :ling (:type %)) agents)
-        drones (filter #(= :drone (:type %)) agents)
-
-        ;; Group drones by parent
-        drones-by-parent (group-by :parent-id drones)
+        all-lings (filter #(= :ling (:type %)) agents)
+        ling-ids (set (map :id all-lings))
+        ;; Top-level lings row; lings spawned by another ling sit below their parent
+        child-ling? #(contains? ling-ids (:parent-id %))
+        lings (remove child-ling? all-lings)
+        children-by-parent (group-by :parent-id (filter child-ling? all-lings))
 
         ;; Layout coordinator at top
         coord-y (- center-y 120)
@@ -103,20 +102,20 @@
                   :y ling-y))
          lings)
 
-        ;; Layout drones below their parent lings
-        drone-y (+ center-y 100)
-        positioned-drones
+        ;; Layout child lings below their parent lings
+        child-y (+ center-y 100)
+        positioned-children
         (mapcat
          (fn [ling]
-           (let [children (get drones-by-parent (:id ling))
+           (let [children (get children-by-parent (:id ling))
                  n (count children)
                  spacing 50
                  start-x (- (:x ling) (/ (* (dec n) spacing) 2))]
              (map-indexed
-              (fn [i drone]
-                (assoc drone
+              (fn [i child]
+                (assoc child
                        :x (+ start-x (* i spacing))
-                       :y drone-y))
+                       :y child-y))
               children)))
          positioned-lings)]
 
@@ -125,7 +124,7 @@
      (when coordinator
        [(assoc coordinator :x center-x :y coord-y)])
      positioned-lings
-     positioned-drones)))
+     positioned-children)))
 
 ;; -- Agent Topology Graph --
 
@@ -161,10 +160,7 @@
           [:text {:x 30 :y 24 :font-size 11 :fill "#e5e5e5"} "Coordinator"]
           ;; Ling
           [:circle {:cx 15 :cy 45 :r 8 :fill "#8b5cf6"}]
-          [:text {:x 30 :y 49 :font-size 11 :fill "#e5e5e5"} "Ling"]
-          ;; Drone
-          [:circle {:cx 15 :cy 70 :r 8 :fill "#f97316"}]
-          [:text {:x 30 :y 74 :font-size 11 :fill "#e5e5e5"} "Drone"]]
+          [:text {:x 30 :y 49 :font-size 11 :fill "#e5e5e5"} "Ling"]]
 
          ;; Status legend
          [:g {:transform (str "translate(" (- (or width 800) 120) ", 20)")}
@@ -252,8 +248,7 @@
         working (count (filter #(= :working (:status %)) agent-list))
         idle (count (filter #(= :idle (:status %)) agent-list))
         error (count (filter #(= :error (:status %)) agent-list))
-        lings (count (filter #(= :ling (:type %)) agent-list))
-        drones (count (filter #(= :drone (:type %)) agent-list))]
+        lings (count (filter #(= :ling (:type %)) agent-list))]
     [:div {:class "agent-stats"}
      [:div {:class "stat"}
       [:span {:class "stat-value"} total]
@@ -266,10 +261,7 @@
       [:span {:class "stat-label"} "Idle"]]
      [:div {:class "stat"}
       [:span {:class "stat-value" :style {:color "#8b5cf6"}} lings]
-      [:span {:class "stat-label"} "Lings"]]
-     [:div {:class "stat"}
-      [:span {:class "stat-value" :style {:color "#f97316"}} drones]
-      [:span {:class "stat-label"} "Drones"]]]))
+      [:span {:class "stat-label"} "Lings"]]]))
 
 ;; -- Integrated Agents Panel --
 

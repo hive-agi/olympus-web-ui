@@ -2,4 +2,4 @@
  :parent "hive"
  :description "Olympus dashboard web UI"
  :language :clojurescript
- :tags ["olympus" "ui" "dashboard"]}
+ :tags ["olympus" "ui" "dashboard"] :carto {:source-roots ["src"]}}
